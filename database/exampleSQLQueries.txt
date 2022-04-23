@@ -1,0 +1,31 @@
+
+-- scrumlords database
+--  sample queries
+
+--  select all apartments that are overdue for a particular landlord
+		select username as RENTER, address_line_1, city, monthly_rent_amt, balance_due, past_due
+		from apartments
+		join ownership on apartments.property_id = ownership.property_id
+		join account on ownership.ownership_id = account.ownership_id
+		join users on ownership.renter = users.user_id
+		where ownership.landlord = 8 and past_due = true;
+		
+		
+--  select all un-read notifications for a particular user_id
+		select message
+		from notification
+		where user_id = 11 and read = False ;
+		
+--  select all maintenance staff id, name, and service dept
+		select staff_user_id, staff_name, service_dept
+		from maint_staff;
+		
+--	selete all maintenance requests (with renter contact info) for a particular maint_staff user_id
+		select username as Renter_name, address_line_1, address_line_2, city,
+		state, zip, description
+		from maintenance
+		join ownership on maintenance.ownership_id = ownership.ownership_id
+		join users on ownership.renter = users.user_id
+		join apartments on ownership.property_id = apartments.property_id
+		where maint_staff_id = 1;
+		
